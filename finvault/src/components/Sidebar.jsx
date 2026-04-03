@@ -19,9 +19,12 @@ export default function Sidebar({ active, setActive, mobile, onClose }) {
   const content = (
     <div className="flex flex-col h-full py-8 px-5">
       <div className="mb-12">
-        <div className="font-display font-800 text-[16px] tracking-tight select-none">
+        <button 
+          onClick={logout}
+          className="font-display font-800 text-[16px] tracking-tight select-none cursor-pointer hover:opacity-80 transition-opacity"
+        >
           <span className="text-white">FIN</span><span className="text-[#F5C842]">VAULT</span>
-        </div>
+        </button>
       </div>
 
       <nav className="flex-1 space-y-4">

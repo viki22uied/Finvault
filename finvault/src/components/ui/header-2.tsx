@@ -50,9 +50,12 @@ export function Header({ onSignIn, onGetStarted }) {
 				)}
 			>
 				{/* Logo */}
-				<div className="font-display font-800 text-lg tracking-tight select-none">
+				<button 
+					onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+					className="font-display font-800 text-lg tracking-tight select-none cursor-pointer hover:opacity-80 transition-opacity"
+				>
 					FIN<span className="text-gold-400">VAULT</span>
-				</div>
+				</button>
 
 				{/* Desktop nav */}
 				<div className="hidden items-center gap-1 md:flex">
