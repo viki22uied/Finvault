@@ -29,6 +29,7 @@ function Coin({
   className = "" 
 }) {
   const [isHovered, setIsHovered] = useState(false)
+  const [loaded, setLoaded] = useState(false)
   
   // Parallax offsets
   const x = useTransform(pointerX, (v) => v * parallaxFactor)
@@ -52,8 +53,14 @@ function Coin({
           alt={alt}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          animate={{ scale: isHovered ? 1.1 : 1 }}
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          onLoad={() => setLoaded(true)}
+          fetchpriority={alt === 'Bitcoin' ? "high" : "auto"}
+          loading="eager"
+          animate={{ scale: isHovered ? 1.1 : 1, opacity: loaded ? 1 : 0 }}
+          transition={{ 
+            scale: { type: "spring", stiffness: 300, damping: 20 },
+            opacity: { duration: 0.5 } 
+          }}
           style={{ 
             width: size,
             height: 'auto',
@@ -63,6 +70,24 @@ function Coin({
             cursor: 'pointer'
           }}
         />
+
+        {/* Cinematic Shimmer Placeholder */}
+        {!loaded && (
+          <motion.div 
+            animate={{ 
+              scale: [1, 1.1, 1],
+              opacity: [0.1, 0.3, 0.1]
+            }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute rounded-full"
+            style={{ 
+              width: size * 0.8, 
+              height: size * 0.8, 
+              background: `radial-gradient(circle, ${alt === 'Bitcoin' ? 'rgba(245,200,66,0.6)' : 'rgba(255,255,255,0.4)'} 0%, rgba(0,0,0,0) 70%)`,
+              filter: 'blur(20px)'
+            }}
+          />
+        )}
 
         <AnimatePresence>
           {isHovered && (
