@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --text-primary: #F8F4ED;
+  --text-muted: rgba(248, 244, 237, 0.55);
+  --text-faint: rgba(248, 244, 237, 0.3);
+  --border: rgba(255, 255, 255, 0.07);
+  --border-gold: rgba(245, 200, 66, 0.3);
+  --gold: #F5C842;
+  --green: #22c55e;
+  --red: #ef4444;
+  --surface-3: rgba(255, 255, 255, 0.04);
+  --ease-premium: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Geist', sans-serif;
+  background: #060608;
+  color: #F8F4ED;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography refinements */
+.font-display { font-family: 'Bricolage Grotesque', sans-serif; }
+.font-body { font-family: 'Geist', sans-serif; }
+.font-mono { font-family: 'Geist Mono', monospace; }
+
+h1, h2, h3 {
+  font-family: 'Bricolage Grotesque', sans-serif;
+}
+
+/* Tabular numbers for financial data */
+.tabular { font-variant-numeric: tabular-nums; }
+
+/* Display headline tightening */
+.headline-tight { letter-spacing: -0.02em; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #060608; }
+::-webkit-scrollbar-thumb { background: #F5C842; border-radius: 2px; }
+
+/* Glass card — refined */
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 20px;
+}
+
+.gold-glow {
+  box-shadow: 0 0 60px rgba(245, 200, 66, 0.12), 0 0 20px rgba(245, 200, 66, 0.08);
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.float { animation: float 4s ease-in-out infinite; }
+.ticker-track { animation: ticker 30s linear infinite; }
+.ticker-track:hover { animation-play-state: paused; }
+
+/* Premium transition defaults */
+.transition-premium {
+  transition-timing-function: var(--ease-premium);
+}
+
+/* Focus ring */
+:focus-visible {
+  outline: 2px solid rgba(245, 200, 66, 0.5);
+  outline-offset: 2px;
+}
+
+/* Selection */
+::selection {
+  background: rgba(245, 200, 66, 0.25);
+  color: #F8F4ED;
+}
