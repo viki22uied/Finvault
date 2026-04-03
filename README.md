@@ -111,7 +111,5 @@ Includes a robust redirect system to handle React Router navigation seamlessly o
 *   **Data Strategy**: Uses a local `/public/data` structure for efficient CSV streaming.
 *   **Custom Hooks**: Business logic is abstracted into hooks like `useStore` to keep view logic clean.
 
----
 
-### Built with 🖤 by Antigravity
 *FinVault — Your wealth, visualized.*

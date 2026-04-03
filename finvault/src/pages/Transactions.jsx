@@ -147,16 +147,25 @@ export default function Transactions() {
   const { transactions, addTransaction, updateTransaction, deleteTransaction, role } = useStore()
   const [filter, setFilter] = useState('All')
   const [search, setSearch] = useState('')
+  const [sort, setSort] = useState('Newest')
   const [modal, setModal] = useState(null)
 
-  const filtered = transactions.filter((t) => {
-    const matchCat = filter === 'All' || t.category === filter ||
-      (filter === 'Income' && t.type === 'income')
-    const matchSearch = !search ||
-      t.merchant.toLowerCase().includes(search.toLowerCase()) ||
-      t.category.toLowerCase().includes(search.toLowerCase())
-    return matchCat && matchSearch
-  })
+  const filtered = transactions
+    .filter((t) => {
+      const matchCat = filter === 'All' || t.category === filter ||
+        (filter === 'Income' && t.type === 'income')
+      const matchSearch = !search ||
+        t.merchant.toLowerCase().includes(search.toLowerCase()) ||
+        t.category.toLowerCase().includes(search.toLowerCase())
+      return matchCat && matchSearch
+    })
+    .sort((a, b) => {
+      if (sort === 'Newest') return new Date(b.date) - new Date(a.date)
+      if (sort === 'Oldest') return new Date(a.date) - new Date(b.date)
+      if (sort === 'High Amount') return Math.abs(b.amount) - Math.abs(a.amount)
+      if (sort === 'Low Amount') return Math.abs(a.amount) - Math.abs(b.amount)
+      return 0
+    })
 
   const handleSave = (data) => {
     if (data.id) updateTransaction(data.id, data)
@@ -202,6 +211,8 @@ export default function Transactions() {
         </div>
         <div className="h-[20px] w-px bg-white/[0.06] mx-2" />
         <Dropdown options={categories} selected={filter} onSelect={setFilter} />
+        <div className="h-[20px] w-px bg-white/[0.06] mx-2" />
+        <Dropdown options={['Newest', 'Oldest', 'High Amount', 'Low Amount']} selected={sort} onSelect={setSort} />
       </div>
 
       {/* Editorial List */}

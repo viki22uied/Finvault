@@ -23,9 +23,19 @@ function SpringNumber({ value, prefix = "", suffix = "", color = "#fff", delay =
 }
 
 export default function Insights() {
+  const { transactions } = useStore()
+  
+  // Real dynamic insights
+  const income = transactions.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0) || 155000
+  const foodSpending = Math.abs(transactions.filter(t => t.category.toLowerCase().includes('food')).reduce((s, t) => s + t.amount, 0))
+  const foodPct = income > 0 ? (foodSpending / income * 100).toFixed(1) : 0
+  
+  const expenses = Math.abs(transactions.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0)) || 54198
+  const savingsRate = income > 0 ? Math.max(0, Math.round(((income - expenses) / income) * 100)) : 0
+
   const insights = [
     {
-      headline: "Your SIP of ₹10,000/month will grow to ₹23.4L in 10 years at 12% CAGR.",
+      headline: `Your SIP of ₹10,000/month will grow to ₹23.4L in 10 years at 12% CAGR.`,
       context: "Compound interest is working in your favor. If you increase this by just ₹2k next year, you cut a full year off your timeline.",
       value: 23.4,
       prefix: "₹",
@@ -33,9 +43,9 @@ export default function Insights() {
       color: "#138808" // Indian Green
     },
     {
-      headline: "You spent ₹8,400 on food delivery this month — that is 7% of your income.",
+      headline: `You spent ₹${foodSpending.toLocaleString('en-IN')} on food delivery this month — that is ${foodPct}% of your income.`,
       context: "Swiggy and Zomato accounted for the majority of these orders. Consider a Swiggy One or Zomato Gold subscription to offset delivery fees.",
-      value: 7,
+      value: foodPct,
       prefix: "",
       suffix: "%",
       color: "#FF6B6B"
@@ -49,9 +59,9 @@ export default function Insights() {
       color: "#F5C842"
     },
     {
-      headline: "Your savings rate of 38% beats the Indian average of 29%.",
+      headline: `Your savings rate of ${savingsRate}% ${savingsRate > 29 ? 'beats' : 'is near'} the Indian average of 29%.`,
       context: "You are successfully preserving wealth despite inflationary pressures in the metro areas.",
-      value: 38,
+      value: savingsRate,
       prefix: "",
       suffix: "%",
       color: "#4ECDC4"
@@ -74,14 +84,6 @@ export default function Insights() {
       prefix: "+",
       suffix: "%",
       color: "#138808"
-    },
-    {
-      headline: "Tax Saved This Year",
-      context: "You have used ₹72,000 of your ₹1,50,000 80C limit through ELSS and PPF contributions. Invest another ₹78,000 before March 31 to maximize deductions.",
-      value: 72,
-      prefix: "₹",
-      suffix: "k",
-      color: "#F5C842"
     }
   ]
 
